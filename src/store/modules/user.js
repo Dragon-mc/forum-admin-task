@@ -25,6 +25,9 @@ const mutations = {
   },
   SET_ROLES: (state, roles) => {
     state.roles = roles
+  },
+  SET_ADMIN_ID: (state, admin_id) => {
+    state.admin_id = admin_id
   }
 }
 
@@ -54,7 +57,7 @@ const actions = {
           reject('Verification failed, please Login again.')
         }
 
-        const { roles, name, avatar, introduction } = data
+        const { roles, name, avatar, introduction, admin_id } = data
 
         // roles must be a non-empty array
         if (!roles || roles.length <= 0) {
@@ -65,6 +68,7 @@ const actions = {
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         commit('SET_INTRODUCTION', introduction)
+        commit('SET_ADMIN_ID', admin_id)
         resolve(data)
       }).catch(error => {
         reject(error)
