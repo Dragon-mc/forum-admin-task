@@ -8,10 +8,10 @@
       <el-select v-model="listQuery.sort" style="width: 140px;margin-right: 10px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
         导出
       </el-button>
     </div>
@@ -75,7 +75,7 @@
           <el-date-picker v-model="temp.time" type="datetime" placeholder="Please pick a date" disabled />
         </el-form-item>
         <el-form-item label="内容" prop="content">
-          <el-input v-model="temp.content" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.content" :autosize="{ minRows: 4, maxRows: 10}" type="textarea" placeholder="Please input" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -103,8 +103,7 @@
 </template>
 
 <script>
-import { fetchList, replyUser, deleteFeedback } from '@/api/feedback'
-import waves from '@/directive/waves' // waves directive
+import { fetchList, replyUser, deleteFeedback } from '@/api/user/feedback'
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { mapState } from 'vuex'
@@ -112,8 +111,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'MainCate',
   components: { Pagination },
-  directives: { waves },
-  computed: { ...mapState(['user']) },
   data() {
     return {
       tableKey: 0,
@@ -153,6 +150,7 @@ export default {
       downloadLoading: false
     }
   },
+  computed: { ...mapState(['user']) },
   created() {
     this.getList()
   },

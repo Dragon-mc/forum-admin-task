@@ -16,10 +16,11 @@ export function getInfo(token) {
   })
 }
 
-export function logout() {
+export function logout(data) {
   return request({
     url: '/admin/user/logout',
-    method: 'post'
+    method: 'post',
+    data
   })
 }
 
@@ -27,5 +28,22 @@ export function fetchIndexInfo() {
   return request({
     url: '/admin/user/fetchIndexInfo',
     method: 'post'
+  })
+}
+
+export function uploadAvatar(data) {
+  return request({
+    url: '/admin/user/uploadAvatar',
+    method: 'post',
+    headers: { 'Content-Type': 'multipart/form-data' },
+    data
+  })
+}
+
+export function setSessionAvatar(data) {
+  return request({
+    url: '/admin/user/setSessionAvatar',
+    method: 'post',
+    data
   })
 }

@@ -6,10 +6,10 @@
       <el-select v-model="listQuery.sort" style="width: 140px;margin-right: 10px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
         导出
       </el-button>
     </div>
@@ -83,15 +83,13 @@
 </template>
 
 <script>
-import { fetchList, updateComment, deleteComment } from '@/api/comment'
-import waves from '@/directive/waves' // waves directive
+import { fetchList, updateComment, deleteComment } from '@/api/post/comment'
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 
 export default {
   name: 'MainCate',
   components: { Pagination },
-  directives: { waves },
   data() {
     return {
       tableKey: 0,
@@ -179,7 +177,7 @@ export default {
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.time = new Date(this.temp.time)
-      this.temp.status = this.temp.status == '1' ? '已发布' : '待发布'
+      this.temp.status = Number(this.temp.status) === 1 ? '已发布' : '待发布'
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -192,7 +190,7 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
           tempData.time = parseTime(tempData.time, '{y}-{m}-{d} {h}:{i}:{s}') // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 2017-11-30 16:41:05
-          tempData.status = tempData.status == '已发布' ? 1 : 0
+          tempData.status = tempData.status === '已发布' ? 1 : 0
           updateComment(tempData).then(() => {
             const index = this.list.findIndex(v => v.id === this.temp.id)
             this.list.splice(index, 1, this.temp)

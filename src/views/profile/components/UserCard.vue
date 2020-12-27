@@ -1,14 +1,15 @@
 <template>
   <el-card style="margin-bottom:20px;">
     <div slot="header" class="clearfix">
-      <span>About me</span>
+      <span>我的资料</span>
     </div>
 
     <div class="user-profile">
       <div class="box-center">
-        <pan-thumb :image="user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
-          <div>Hello</div>
-          {{ user.role }}
+        <pan-thumb :image="user.tempAvatar || user.avatar" :height="'100px'" :width="'100px'" :hoverable="false">
+          <!-- <div>Hello</div>
+          {{ user.role }} -->
+          <div class="modify_avatar" @click="handleModifyAvatar">替换</div>
         </pan-thumb>
       </div>
       <div class="box-center">
@@ -19,10 +20,10 @@
 
     <div class="user-bio">
       <div class="user-education user-bio-section">
-        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>Education</span></div>
+        <div class="user-bio-section-header"><svg-icon icon-class="education" /><span>介绍</span></div>
         <div class="user-bio-section-body">
           <div class="text-muted">
-            JS in Computer Science from the University of Technology
+            {{ user.introduction }}
           </div>
         </div>
       </div>
@@ -63,17 +64,27 @@ export default {
       default: () => {
         return {
           name: '',
-          email: '',
           avatar: '',
-          role: ''
+          role: '',
+          introduction: '',
+          tempAvatar: undefined
         }
       }
+    }
+  },
+  methods: {
+    // 替换头像
+    handleModifyAvatar() {
+      this.$emit('modify')
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.pan-thumb {
+  background: #fff;
+}
 .box-center {
   margin: 0 auto;
   display: table;
@@ -130,5 +141,17 @@ export default {
       font-weight: bold;
     }
   }
+}
+.modify_avatar {
+  background: rgba(0, 0, 0, 0.3);
+  height: 58px;
+  width: 58px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  color: #fff;
+  cursor: pointer;
+  box-shadow: #606266 0 0 10px;
 }
 </style>

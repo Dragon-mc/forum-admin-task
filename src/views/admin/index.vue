@@ -8,13 +8,13 @@
       <el-select v-model="listQuery.sort" style="width: 140px;margin-right: 10px" class="filter-item" @change="handleFilter">
         <el-option v-for="item in sortOptions" :key="item.key" :label="item.label" :value="item.key" />
       </el-select>
-      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
+      <el-button class="filter-item" type="primary" icon="el-icon-search" @click="handleFilter">
         搜索
       </el-button>
       <el-button class="filter-item" style="margin-left: 10px;" type="primary" icon="el-icon-edit" @click="handleCreate">
         添加
       </el-button>
-      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+      <el-button :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
         导出
       </el-button>
     </div>
@@ -76,22 +76,22 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="用户名" prop="username">
-          <el-input v-model="temp.username" placeholder="Please input" />
+          <el-input v-model="temp.username" placeholder="请输入用户名" />
         </el-form-item>
         <el-form-item v-if="dialogStatus=='create'" label="密码" prop="password">
-          <el-input v-model="temp.password" placeholder="Please input" />
+          <el-input v-model="temp.password" placeholder="请输入密码" />
         </el-form-item>
-        <el-form-item label="时间" prop="create_time">
-          <el-date-picker v-model="temp.create_time" disabled type="datetime" placeholder="Please pick a date" />
+        <el-form-item label="时间">
+          <el-date-picker v-model="temp.create_time" disabled type="datetime" placeholder="请选择日期" />
         </el-form-item>
         <el-form-item label="级别">
-          <el-select v-model="temp.level" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.level" class="filter-item" placeholder="请选择等级">
             <!-- <el-option v-for="item in levelOptions" :key="item" :label="item" :value="item" /> -->
             <el-option label="普通管理员" value="1" />
           </el-select>
         </el-form-item>
         <el-form-item label="介绍">
-          <el-input v-model="temp.introduction" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.introduction" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入介绍" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -109,7 +109,6 @@
 
 <script>
 import { fetchList, updateAdmin, createAdmin, deleteAdmin } from '@/api/admin'
-import waves from '@/directive/waves' // waves directive
 import { parseTime } from '@/utils'
 import Pagination from '@/components/Pagination' // secondary package based on el-pagination
 import { mapState } from 'vuex'
@@ -117,7 +116,6 @@ import { mapState } from 'vuex'
 export default {
   name: 'MainCate',
   components: { Pagination },
-  directives: { waves },
   filters: {
     levelFilter(level) {
       const typeMap = {
@@ -127,8 +125,23 @@ export default {
       return typeMap[level]
     }
   },
-  computed: { ...mapState(['user']) },
   data() {
+    const validUsername = (rule, value, callback) => {
+      if (value.trim() === '') callback(new Error('请输入账号'))
+      else if (value.length < 5 || value.length > 20) {
+        callback(new Error('账号最少5位，最多20位'))
+      } else {
+        callback()
+      }
+    }
+    const validPassword = (rule, value, callback) => {
+      if (value.trim() === '') callback(new Error('请输入密码'))
+      else if (value.length < 6 || value.length > 16) {
+        callback(new Error('密码最少6位，最多16位'))
+      } else {
+        callback()
+      }
+    }
     return {
       tableKey: 0,
       // 列表的内容
@@ -166,13 +179,13 @@ export default {
       },
       // 弹出层表单提交时的验证规则
       rules: {
-        username: [{ required: true, message: 'username is required', trigger: 'change' }],
-        create_time: [{ type: 'date', required: true, message: 'time is required', trigger: 'change' }],
-        password: [{ required: true, message: 'password is required', trigger: 'change' }]
+        username: [{ required: true, trigger: 'blur', validator: validUsername }],
+        password: [{ required: true, trigger: 'blur', validator: validPassword }]
       },
       downloadLoading: false
     }
   },
+  computed: { ...mapState(['user']) },
   created() {
     this.getList()
   },
@@ -236,7 +249,7 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           const data = Object.assign({}, this.temp)
-          data.level = (data.level == '普通管理员' || data.level == 1) ? 1 : 0
+          data.level = (data.level === '普通管理员' || Number(data.level) === 1) ? 1 : 0
           data.create_time = parseTime(data.create_time, '{y}-{m}-{d} {h}:{i}:{s}')
           createAdmin(data).then(() => {
             // 刷新列表
@@ -257,7 +270,7 @@ export default {
     handleUpdate(row) {
       this.temp = Object.assign({}, row) // copy obj
       this.temp.time = new Date(this.temp.time)
-      this.temp.level = this.temp.level == '1' ? '普通管理员' : '超级管理员'
+      this.temp.level = Number(this.temp.level) === 1 ? '普通管理员' : '超级管理员'
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
       this.$nextTick(() => {
@@ -270,7 +283,7 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
           tempData.create_time = parseTime(tempData.create_time, '{y}-{m}-{d} {h}:{i}:{s}') // change Thu Nov 30 2017 16:41:05 GMT+0800 (CST) to 2017-11-30 16:41:05
-          tempData.level = (tempData.level == '普通管理员' || tempData.level == 1) ? 1 : 0
+          tempData.level = (tempData.level === '普通管理员' || Number(tempData.level) === 1) ? 1 : 0
           updateAdmin(tempData).then(() => {
             const index = this.list.findIndex(v => v.id === this.temp.id)
             this.list.splice(index, 1, this.temp)

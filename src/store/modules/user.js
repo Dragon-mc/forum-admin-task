@@ -1,4 +1,4 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, setSessionAvatar } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import router, { resetRouter } from '@/router'
 
@@ -7,7 +7,8 @@ const state = {
   name: '',
   avatar: '',
   introduction: '',
-  roles: []
+  roles: [],
+  admin_id: 0
 }
 
 const mutations = {
@@ -124,6 +125,14 @@ const actions = {
 
     // reset visited views and cached views
     dispatch('tagsView/delAllViews', null, { root: true })
+  },
+
+  modifyAvatar({ commit, state }, avatar) {
+    commit('SET_AVATAR', avatar)
+    return setSessionAvatar({
+      token: state.token,
+      avatar
+    })
   }
 }
 
