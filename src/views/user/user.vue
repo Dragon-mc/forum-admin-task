@@ -86,18 +86,18 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="昵称">
-          <el-input v-model="temp.nickname" placeholder="Please input" />
+          <el-input v-model="temp.nickname" placeholder="请输入昵称" />
         </el-form-item>
         <el-form-item label="性别">
-          <el-select v-model="temp.sex" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.sex" class="filter-item" placeholder="请选择性别">
             <el-option v-for="item in sexOptions" :key="item" :label="item" :value="item" />
           </el-select>
         </el-form-item>
         <el-form-item label="个性签名">
-          <el-input v-model="temp.sign" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.sign" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入个性签名" />
         </el-form-item>
         <el-form-item label="简介">
-          <el-input v-model="temp.introduction" :autosize="{ minRows: 4, maxRows: 10}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.introduction" :autosize="{ minRows: 4, maxRows: 10}" type="textarea" placeholder="请输入简介" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -266,8 +266,8 @@ export default {
     handleDownload() {
       this.downloadLoading = true
       import('@/vendor/Export2Excel').then(excel => {
-        const tHeader = ['id', 'create_time', 'last_time', 'username', 'nickname', 'sex', 'sign']
-        const filterVal = ['id', 'create_time', 'last_time', 'username', 'nickname', 'sex', 'sign']
+        const tHeader = ['id', 'create_time', 'last_time', 'username', 'nickname', 'sex', 'sign', 'introduction']
+        const filterVal = ['id', 'create_time', 'last_time', 'username', 'nickname', 'sex', 'sign', 'introduction']
         const data = this.formatJson(filterVal)
         excel.export_json_to_excel({
           header: tHeader,

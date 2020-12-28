@@ -66,7 +66,7 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="内容" prop="content">
-          <el-input v-model="temp.content" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.content" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -123,7 +123,7 @@ export default {
       },
       // 弹出层表单提交时的验证规则
       rules: {
-        content: [{ required: true, message: 'content is required', trigger: 'change' }]
+        content: [{ required: true, message: '内容不能为空', trigger: 'change' }]
       },
       downloadLoading: false
     }

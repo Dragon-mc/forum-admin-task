@@ -87,23 +87,23 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="标题" prop="title">
-          <el-input v-model="temp.title" placeholder="Please input" />
+          <el-input v-model="temp.title" placeholder="请输入标题" />
         </el-form-item>
         <el-form-item label="所属分类">
-          <el-select v-model="temp.sub_id" filterable placeholder="Please select">
+          <el-select v-model="temp.sub_id" filterable placeholder="请选择所属分类">
             <el-option v-for="item in subCateList" :key="item.name" :label="item.name" :value="item.id" />
           </el-select>
         </el-form-item>
         <el-form-item label="时间" prop="time">
-          <el-date-picker v-model="temp.time" disabled type="datetime" placeholder="Please pick a date" />
+          <el-date-picker v-model="temp.time" disabled type="datetime" placeholder="请选择时间" />
         </el-form-item>
         <el-form-item label="状态">
-          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
+          <el-select v-model="temp.status" class="filter-item" placeholder="请选择状态">
             <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item=='已发布'?1:0" />
           </el-select>
         </el-form-item>
         <el-form-item label="内容" prop="content">
-          <el-input v-model="temp.content" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.content" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -179,9 +179,9 @@ export default {
       },
       // 弹出层表单提交时的验证规则
       rules: {
-        content: [{ required: true, message: 'content is required', trigger: 'change' }],
-        time: [{ type: 'date', required: true, message: 'time is required', trigger: 'change' }],
-        title: [{ required: true, message: 'title is required', trigger: 'change' }]
+        content: [{ required: true, message: '内容不能为空', trigger: 'change' }],
+        time: [{ type: 'date', required: true, message: '时间不能为空', trigger: 'change' }],
+        title: [{ required: true, message: '标题不能为空', trigger: 'change' }]
       },
       downloadLoading: false
     }

@@ -81,10 +81,10 @@
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="分类名称" prop="name">
-          <el-input v-model="temp.name" placeholder="Please input" />
+          <el-input v-model="temp.name" placeholder="请输入分类名称" />
         </el-form-item>
-        <el-form-item label="时间" prop="time">
-          <el-date-picker v-model="temp.time" disabled type="datetime" placeholder="Please pick a date" />
+        <el-form-item label="时间">
+          <el-date-picker v-model="temp.time" disabled type="datetime" placeholder="请选择日期" />
         </el-form-item>
         <el-form-item label="状态">
           <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
@@ -92,7 +92,7 @@
           </el-select>
         </el-form-item>
         <el-form-item label="描述" prop="desc">
-          <el-input v-model="temp.desc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.desc" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="请输入描述" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -164,9 +164,8 @@ export default {
       },
       // 弹出层表单提交时的验证规则
       rules: {
-        desc: [{ required: true, message: 'description is required', trigger: 'change' }],
-        time: [{ type: 'date', required: true, message: 'time is required', trigger: 'change' }],
-        name: [{ required: true, message: 'name is required', trigger: 'change' }]
+        desc: [{ required: true, message: '描述不能为空', trigger: 'change' }],
+        name: [{ required: true, message: '分类名称不能为空', trigger: 'change' }]
       },
       downloadLoading: false
     }

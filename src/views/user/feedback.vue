@@ -72,10 +72,10 @@
     <el-dialog title="回复" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="80px" style="width: 400px; margin-left:50px;">
         <el-form-item label="时间">
-          <el-date-picker v-model="temp.time" type="datetime" placeholder="Please pick a date" disabled />
+          <el-date-picker v-model="temp.time" type="datetime" placeholder="请选择时间" disabled />
         </el-form-item>
         <el-form-item label="内容" prop="content">
-          <el-input v-model="temp.content" :autosize="{ minRows: 4, maxRows: 10}" type="textarea" placeholder="Please input" />
+          <el-input v-model="temp.content" :autosize="{ minRows: 4, maxRows: 10}" type="textarea" placeholder="请输入内容" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -145,7 +145,7 @@ export default {
       dialogReplyDetailVisible: false,
       // 弹出层表单提交时的验证规则
       rules: {
-        content: [{ required: true, message: 'content is required', trigger: 'change' }]
+        content: [{ required: true, message: '内容不能为空', trigger: 'change' }]
       },
       downloadLoading: false
     }
