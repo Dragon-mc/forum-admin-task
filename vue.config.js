@@ -15,6 +15,12 @@ const name = defaultSettings.title || 'Forum Admin' // page title
 // port = 9527 npm run dev OR npm run dev --port = 9527
 const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 
+// 根据运行环境设置publicPath
+const publicPath = {
+  'development': '/',
+  'production': '/php2/forum-admin'
+}[process.env.ENV]
+
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
@@ -24,7 +30,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: '/',
+  publicPath: publicPath,
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
