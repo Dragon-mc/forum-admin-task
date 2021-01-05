@@ -15,12 +15,6 @@ const name = defaultSettings.title || 'Forum Admin' // page title
 // port = 9527 npm run dev OR npm run dev --port = 9527
 const port = process.env.port || process.env.npm_config_port || 9528 // dev port
 
-// 根据运行环境设置publicPath
-const publicPath = {
-  'development': '/',
-  'production': '/php2/forum-admin'
-}[process.env.ENV]
-
 // All configuration item explanations can be find in https://cli.vuejs.org/config/
 module.exports = {
   /**
@@ -30,7 +24,7 @@ module.exports = {
    * In most cases please use '/' !!!
    * Detail: https://cli.vuejs.org/config/#publicpath
    */
-  publicPath: publicPath,
+  publicPath: process.env.VUE_APP_PUBLIC_PATH,
   outputDir: 'dist',
   assetsDir: 'static',
   lintOnSave: process.env.NODE_ENV === 'development',
@@ -43,15 +37,15 @@ module.exports = {
       errors: true
     },
     // before: require('./mock/mock-server.js'),
-    proxy: {
-      [process.env.VUE_APP_BASE_API]: {
-        target: 'http://www.forum.com/index.php',
-        changeOrigin: true,
-        pathRewrite: {
-          ['^' + process.env.VUE_APP_BASE_API]: ''
-        }
-      }
-    }
+    // proxy: {
+    //   [process.env.VUE_APP_BASE_API]: {
+    //     target: 'http://www.forum.com/index.php',
+    //     changeOrigin: true,
+    //     pathRewrite: {
+    //       ['^' + process.env.VUE_APP_BASE_API]: ''
+    //     }
+    //   }
+    // }
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

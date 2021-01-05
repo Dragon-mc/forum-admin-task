@@ -49,7 +49,7 @@
       </el-table-column>
       <el-table-column label="内容" min-width="150px">
         <template slot-scope="{row}">
-          <span>{{ row.content }}</span>
+          <span class="content-row">{{ row.content }}</span>
         </template>
       </el-table-column>
       <el-table-column label="发布者" width="110px" align="center">
@@ -339,3 +339,11 @@ export default {
   }
 }
 </script>
+
+<style>
+.content-row {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis
+}
+</style>
