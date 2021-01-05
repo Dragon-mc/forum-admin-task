@@ -21,3 +21,5 @@ selenium-debug.log
 
 package-lock.json
 yarn.lock
+/src/views/dashboard/admin/components/systemInfo.vue
+/src/views/dashboard/admin/components/techInfo.vue
